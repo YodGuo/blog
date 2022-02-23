@@ -2,9 +2,11 @@ FROM adoptopenjdk:11-jre-hotspot as builder
 
 WORKDIR application
 
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE='build/libs/*.jar'
+ARG HALO_VERSION='1.4.17'
+ARG GITHUB_PROXY='https://ghproxy.com/'
 
-RUN curl -L https://github.com/halo-dev/halo/releases/download/v1.4.17/halo-1.4.17.jar --output application.jar \
+RUN curl -L ${GITHUB_PROXY}https://github.com/halo-dev/halo/releases/download/v${HALO_VERSION}/halo-${HALO_VERSION}.jar --output application.jar \
     && java -Djarmode=layertools -jar application.jar extract
 
 ################################
@@ -19,15 +21,16 @@ COPY --from=builder application/dependencies/ ./
 COPY --from=builder application/spring-boot-loader/ ./
 COPY --from=builder application/snapshot-dependencies/ ./
 COPY --from=builder application/application/ ./
+COPY ./docker-entrypoint.sh ./docker-entrypoint.sh
 
 # JVM_XMS and JVM_XMX configs deprecated for removal in halov1.4.4
-ENV JVM_XMS="256m" \
-    JVM_XMX="256m" \
-    JVM_OPTS="-Xmx256m -Xms256m" \
-    TZ=Asia/Shanghai \
-    HALO_DATABASE='H2'
+ENV JVM_XMS="256m"
+ENV JVM_XMX="256m"
+ENV JVM_OPTS="-Xmx256m -Xms256m"
+ENV TZ='Asia/Shanghai'
+ENV HALO_DATABASE='H2'
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
-ENTRYPOINT [ "/bin/sh", "/app/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/bin/sh", "./docker-entrypoint.sh" ]

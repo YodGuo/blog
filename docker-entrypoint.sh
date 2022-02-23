@@ -1,20 +1,24 @@
 #!/bin/bash
-
+## set time zone
 ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
-CONF_FILE='app.conf'
+## configuration file path
+CONF_FILE='/root/.halo/application.yaml'
 
-if [[ -z ${HALO_DATABASE} && X${HALO_DATABASE} == XMYSQL ]]; then
+## Download configuration file
+echo "Using '${HALO_DATABASE}'. Downloading configuration file..."
+if [[ ${HALO_DATABASE} && X${HALO_DATABASE} == XMYSQL ]]; then
     curl -L https://dl.halo.run/config/application-template-mysql.yaml --output ${CONF_FILE}
-elif [[ -z ${HALO_DATABASE} && X${HALO_DATABASE} == XH2 ]]; then
+elif [[ ${HALO_DATABASE} && X${HALO_DATABASE} == XH2 ]]; then
     curl -L https://dl.halo.run/config/application-template-h2.yaml --output ${CONF_FILE}
 else
     echo "Unknown database type, Exit!"
     exit 1
 fi
+unset HALO_DATABASE
 
-
+## Initialize the configuration file
 if env | grep -q '^HALO_.\+=.\+'; then
     # Ignore variables with '-'.
     for VAR_NAME in $(env | grep '^HALO_.\+=.\+' | sed -r "s/^HALO_([^=]*).*/\1/g"); do
@@ -49,6 +53,7 @@ if env | grep -q '^HALO_.\+=.\+'; then
     done
 fi
 
+## starting program
 exec \
     java -Xms${JVM_XMS} -Xmx${JVM_XMX} ${JVM_OPTS} \
     -Djava.security.egd=file:/dev/./urandom org.springframework.boot.loader.JarLauncher

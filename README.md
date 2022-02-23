@@ -6,13 +6,15 @@
 
 ```bash
 docker build -t halo .
+# 中国区域内构建慢可使用
+# docker build --add-host=github.com:52.69.186.44 -t halo:1.4.3 .
 
 docker run \
   --name halo \
   --restart=always \
   -p 8090:8090 \
   -v ~/.halo:/root/.halo \
-  -e HALO_DATABASE='MYSQL'
+  -e HALO_DATABASE='MYSQL' \
   -e HALO_SERVER_PORT='8090' \
   -e HALO_SERVER_COMPRESSION_ENABLED='false' \
   -e HALO_SPRING_DATASOURCE_DRIVER_CLASS_NAME='com.mysql.cj.jdbc.Driver' \

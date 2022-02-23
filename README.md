@@ -12,7 +12,7 @@ docker build -t halo .
 # 指定版本
 docker build --build-arg HALO_VERSION=1.4.3 -t halo .
 
-# 指定加速器(由于国内直接通过 github 下载非常缓慢,加速此选项以通过加速器下载)
+# 指定加速器（由于国内直接通过 github 下载非常缓慢，通过此选项可以使用加速器下载）
 docker build --build-arg HALO_VERSION='1.4.3' --build-arg GITHUB_PROXY='https://ghproxy.com/' -t halo .
 ```
 

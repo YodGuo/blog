@@ -6,8 +6,6 @@
 
 ```bash
 docker build -t halo .
-# 中国区域内构建慢可使用
-# docker build --add-host=github.com:52.69.186.44 -t halo:1.4.3 .
 
 docker run \
   --name halo \
@@ -34,11 +32,18 @@ docker run \
 
 在使用环境变量初始化时，配置项并未区分大小写，示例中仅仅是为了美观。
 
-如果处理结果超过 3 级的配置项，会将前两项拆分，剩余内容作为一个配置项，如：
+### 个别选项说明
 
-> -e HALO_SPRING_DATASOURCE_DRIVER_CLASS_NAME='com.mysql.cj.jdbc.Driver'
+> HALO_DATABASE='MYSQL'
 
-初始化在配置文件内为
+此项设置数据库类型，支持的选项为 `H2`/`MYSQL`。
+
+> HALO_SPRING_DATASOURCE_DRIVER_CLASS_NAME='com.mysql.cj.jdbc.Driver'
+
+如果处理结果超过 3 级的配置项，会将前两项拆分，剩余内容作为一个配置项。
+
+以上变量初始化在配置文件内如下：
+
 ```yaml
 spring:
   datasource:

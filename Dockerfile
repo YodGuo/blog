@@ -24,7 +24,8 @@ COPY --from=builder application/application/ ./
 ENV JVM_XMS="256m" \
     JVM_XMX="256m" \
     JVM_OPTS="-Xmx256m -Xms256m" \
-    TZ=Asia/Shanghai
+    TZ=Asia/Shanghai \
+    HALO_DATABASE='H2'
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone

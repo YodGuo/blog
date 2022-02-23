@@ -5,6 +5,16 @@ ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
 
 CONF_FILE='app.conf'
 
+if [[ -z ${HALO_DATABASE} && X${HALO_DATABASE} == XMYSQL ]]; then
+    curl -L https://dl.halo.run/config/application-template-mysql.yaml --output ${CONF_FILE}
+elif [[ -z ${HALO_DATABASE} && X${HALO_DATABASE} == XH2 ]]; then
+    curl -L https://dl.halo.run/config/application-template-h2.yaml --output ${CONF_FILE}
+else
+    echo "Unknown database type, Exit!"
+    exit 1
+fi
+
+
 if env | grep -q '^HALO_.\+=.\+'; then
     # Ignore variables with '-'.
     for VAR_NAME in $(env | grep '^HALO_.\+=.\+' | sed -r "s/^HALO_([^=]*).*/\1/g"); do

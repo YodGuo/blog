@@ -4,9 +4,21 @@
 
 ## 快速开始
 
+### 镜像构建
+
 ```bash
 docker build -t halo .
 
+# 指定版本
+docker build --build-arg HALO_VERSION=1.4.3 -t halo .
+
+# 指定加速器(由于国内直接通过 github 下载非常缓慢,加速此选项以通过加速器下载)
+docker build --build-arg HALO_VERSION='1.4.3' --build-arg GITHUB_PROXY='https://ghproxy.com/' -t halo .
+```
+
+### docker 启动
+
+```bash
 docker run \
   --name halo \
   --restart=always \
@@ -32,22 +44,24 @@ docker run \
 
 在使用环境变量初始化时，配置项并未区分大小写，示例中仅仅是为了美观。
 
-### 个别选项说明
+### 个别变量说明
 
-> HALO_DATABASE='MYSQL'
+- > HALO_DATABASE='MYSQL'
 
-此项设置数据库类型，支持的选项为 `H2`/`MYSQL`。
+  此项设置数据库类型，支持的选项为 `H2`/`MYSQL`。
 
-> HALO_SPRING_DATASOURCE_DRIVER_CLASS_NAME='com.mysql.cj.jdbc.Driver'
+- > HALO_SPRING_DATASOURCE_DRIVER_CLASS_NAME='com.mysql.cj.jdbc.Driver'
 
-如果处理结果超过 3 级的配置项，会将前两项拆分，剩余内容作为一个配置项。
+  如果处理结果超过 3 级的配置项，会将前两项拆分，剩余内容作为一个配置项。
 
-以上变量初始化在配置文件内如下：
+  以上变量初始化在配置文件内如下：
 
-```yaml
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.driver
-```
+  ```yaml
+  spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.driver
+  ```
+
+  
 
 [配置参考](https://docs.halo.run/getting-started/config/#mysql-1)

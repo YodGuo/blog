@@ -7,11 +7,12 @@ ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
 CONF_FILE='/root/.halo/application.yaml'
 
 ## Download configuration file
+mkdir -p /root/.halo/
 echo "Using '${HALO_DATABASE}'. Downloading configuration file..."
 if [[ ${HALO_DATABASE} && X${HALO_DATABASE} == XMYSQL ]]; then
-    curl -L https://dl.halo.run/config/application-template-mysql.yaml --output ${CONF_FILE}
+    curl -sL https://dl.halo.run/config/application-template-mysql.yaml --output ${CONF_FILE}
 elif [[ ${HALO_DATABASE} && X${HALO_DATABASE} == XH2 ]]; then
-    curl -L https://dl.halo.run/config/application-template-h2.yaml --output ${CONF_FILE}
+    curl -sL https://dl.halo.run/config/application-template-h2.yaml --output ${CONF_FILE}
 else
     echo "Unknown database type, Exit!"
     exit 1

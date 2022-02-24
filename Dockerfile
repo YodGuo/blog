@@ -33,4 +33,4 @@ ENV HALO_DATABASE='H2'
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
-ENTRYPOINT [ "/bin/sh", "./docker-entrypoint.sh" ]
+ENTRYPOINT [ "/bin/bash", "./docker-entrypoint.sh" ]

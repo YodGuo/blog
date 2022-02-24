@@ -30,7 +30,4 @@ ENV JVM_OPTS="-Xmx256m -Xms256m"
 ENV TZ='Asia/Shanghai'
 ENV HALO_DATABASE='H2'
 
-RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo $TZ > /etc/timezone
-
 ENTRYPOINT [ "/bin/bash", "./docker-entrypoint.sh" ]

@@ -2,6 +2,10 @@
 
 ------------------------------
 
+[dockerhub 地址](https://hub.docker.com/r/miacis/halo)
+
+[配置参考](https://docs.halo.run/getting-started/config/#mysql-1)
+
 ## 快速开始
 
 ### 镜像构建
@@ -33,7 +37,7 @@ docker run \
   -e HALO_SPRING_DATASOURCE_PASSWORD='123456' \
   -e HALO_HALO_ADMIN_PATH='admin' \
   -e HALO_HALO_CACHE='memory' \
-  -d halo
+  -d miacis/halo
 ```
 
 ## 变量使用说明
@@ -61,7 +65,3 @@ docker run \
     datasource:
       driver-class-name: com.mysql.cj.jdbc.driver
   ```
-
-  
-
-[配置参考](https://docs.halo.run/getting-started/config/#mysql-1)

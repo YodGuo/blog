@@ -3,7 +3,7 @@ FROM adoptopenjdk:11-jre-hotspot as builder
 WORKDIR application
 
 ARG JAR_FILE='build/libs/*.jar'
-ARG HALO_VERSION='1.4.17'
+ARG HALO_VERSION='1.5.2'
 ARG GITHUB_PROXY
 
 RUN curl -L ${GITHUB_PROXY}https://github.com/halo-dev/halo/releases/download/v${HALO_VERSION}/halo-${HALO_VERSION}.jar --output application.jar \
